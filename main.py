@@ -1,6 +1,7 @@
 import sys
 import hashlib
 import random
+import csv
 
 class RandPosition:
     def __init__(self, reserved_data, width, height, s, mod):
@@ -11,12 +12,14 @@ class RandPosition:
         self.mod = mod
 
         self.nomal_seat_data = [i+1 for i in range(45)]
+        self.nomal_seat_data.remove(20)
 
         # 座席の初期化
         #   確定席 -> number, 未定積 -> -1, 席がない場所 -> 0 
         self.class_position = [[-1 for j in range(width)] for i in range(height)]
         self.class_position[height-1][0] = 0
         self.class_position[height-1][1] = 0
+        self.class_position[height-1][4] = 0
 
     def solve(self):
         self.position_reserved()
@@ -44,7 +47,7 @@ class RandPosition:
 
     # 指定席の人を配置＆重複がないかなどの確認
     def position_reserved(self):
-        for num, h, w in reserved_seat_data:
+        for num, h, w in self.reserved_data:
             if num not in self.nomal_seat_data:
                 print("Error: 指定が重複しています")
                 sys.exit()
@@ -75,9 +78,14 @@ class RandPosition:
 
     # 出力
     def output(self):
-        for i in self.class_position[::-1]:
+        output_data = [["" if item == 0 else str(item) for item in row] for row in self.class_position[::-1]]
+        for i in output_data:
             print(*i, sep="\t")
             # print(*i)
+        output_file_name = "output_data.csv" 
+        with open(output_file_name, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerows(output_data)
 
 s = "AtCoder"  # seed値
 mod = 1e9  # mod
@@ -87,6 +95,14 @@ height = 9  # 縦幅
 
 # 指定席データ  dataformat -> [num, h, w]
 reserved_seat_data = []
+
+filename = "./reserved_seat.csv"
+with open(filename, "r", newline="", encoding="utf-8") as f:
+    reader = csv.reader(f)
+    marker = next(reader)
+    for row in reader:
+        print(f"指定席データ: {row}")
+        reserved_seat_data.append(list(map(int, row)))
 
 solve = RandPosition(reserved_seat_data, width, height, s, mod)
 solve.solve()
