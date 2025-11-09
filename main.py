@@ -87,7 +87,7 @@ class RandPosition:
             writer = csv.writer(f)
             writer.writerows(output_data)
 
-s = "AtCoder"  # seed値
+s = "atcoder"  # seed値
 mod = 1e9  # mod
 
 width = 5  # 横幅
