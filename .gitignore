@@ -1,3 +1,4 @@
 # Rust: ビルド成果物 (Debug/Releaseを問わず)
 target/
 /output_data.csv
+/reserved_seat.csv
