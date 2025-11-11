@@ -10,5 +10,6 @@ rand_pcg = "0.3" # シード可能な乱数生成器 (Pythonのrandom.seed相当
 sha2 = "0.10"    # SHA-256 ハッシュ
 hex = "0.4"      # ハッシュ値の16進文字列変換
 
+// 多倍長にする用
 num-bigint = "0.4"
 num-traits = "0.2"
