@@ -124,7 +124,7 @@ impl RandPotistion {
         for h in 0..self.height {
             for w in 0..self.width {
                 if self.position_ok(h, w) {
-                    self.class_position[h][w] = self.nomal_seat_data[cnt];
+                    self.class_position[h][w] = shuffle_data[cnt];
                     cnt += 1;
                 }
             }
