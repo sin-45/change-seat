@@ -40,7 +40,7 @@ class RandPosition:
         hash_result = hashlib.sha256(x.encode('utf-8')).hexdigest()
         return hash_result
 
-    # ハッシュ値を数値化
+    # ハッシュ値の剰余を取り数値化
     def hash_mod(self, h):
         hash_int = int(h, 16) % self.mod
         return hash_int

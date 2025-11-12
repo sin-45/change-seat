@@ -61,8 +61,9 @@ impl RandPotistion {
         self.output();
     }
 
+    // seed値決定＆shuffle
     fn rand_seed(&self) -> Vec<i32> {
-        let h: String= self.hash_sha256();
+        let h: String = self.hash_sha256();
         let hash_int: u64 = self.hash_mod(&h);
         // random.seed(hash_int)
         // seed_from_u64 でRNG (乱数生成器) を初期化
@@ -75,6 +76,7 @@ impl RandPotistion {
         shuffled_data
     }
 
+    // ハッシュ値生成
     fn hash_sha256(&self) -> String {
         let x: &str = self.s.as_str();
         let mut hasher = Sha256::new();
@@ -84,6 +86,7 @@ impl RandPotistion {
         hex::encode(result)
     }
 
+    // ハッシュ値の剰余を取り数値化
     fn hash_mod(&self, h: &str) -> u64 {
         let hash_bigint = BigInt::from_str_radix(h, 16)
             .expect("ハッシュ文字列のパースに失敗 (BigInt)");
@@ -97,6 +100,7 @@ impl RandPotistion {
         result_bigint.to_u64().expect("BigIntからu64への変換に失敗")
     }
 
+    // 指定席の人を配置＆重複がないかなどの確認
     fn position_reserved(&mut self) {
         for row in &self.reserved_data {
             let num: i32 = row[0];
@@ -119,6 +123,7 @@ impl RandPotistion {
         }
     }
 
+    // 指定席でない人を配置
     fn position_set(&mut self, shuffle_data: Vec<i32>) {
         let mut cnt: usize = 0;
         for h in 0..self.height {
@@ -131,10 +136,12 @@ impl RandPotistion {
         }
     }
 
+    // 座席が空いているかの確認
     fn position_ok(&self, h: usize, w: usize) -> bool {
         self.class_position[h][w] == -1
     }
 
+    // 出力
     fn output(&self) {
         let output_data: Vec<Vec<String>> = self
             .class_position
@@ -158,12 +165,13 @@ impl RandPotistion {
 }
 
 fn main() {
-    let s: String = "atcoder".to_string();
-    let mod_val: u64 = 1_000_000_000;
+    let s: String = "atcoder".to_string();  // seed値
+    let mod_val: u64 = 1_000_000_000;  // mod
 
-    let width: usize = 5;
-    let height: usize = 9;
+    let width: usize = 5;  // 横幅
+    let height: usize = 9;  // 縦幅
 
+    // 指定席データ  dataformat -> [num, h, w]
     let mut reserved_seat_data: Vec<Vec<i32>> = Vec::new();
     let filename: &str = "../reserved_seat.csv";
 
