@@ -2,3 +2,4 @@
 target/
 /output_data.csv
 /reserved_seat.csv
+*.csv
